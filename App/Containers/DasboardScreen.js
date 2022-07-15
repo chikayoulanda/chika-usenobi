@@ -1,22 +1,23 @@
 import React  from "react";
-import { View, Text, Image, Flatlist, TouchableOpacity, ScrollView} from "react-native";
+import { View, Text, Image, TouchableOpacity, ScrollView} from "react-native";
 import { CommonActions } from '@react-navigation/native';
 import Layout from "../Components/Layout";
 import InputText from "../Components/TextInput";
-import ListItemData from "../Components/ListItemData";
 import Button from "../Components/Button";
 import { Colors, Images } from "../Themes";
 import { setAppInitialize } from '../Lib/storage'
 import { connect } from "react-redux";
 import ListAcions from '../Redux/ListRedux';
-import AuthActions from '../Redux/AuthRedux'
+import AuthActions from '../Redux/AuthRedux';
+
+import styles from './styles/DashboardScreenStyles';
 
 class DashboardScreen extends React.Component {
   constructor(props) {
     super(props);
       this.state = {
         search: '',
-        screen: 'deposit',
+        screen: 'list',
         isLoading: false,
         listData: [],
         currentInstance: this
@@ -74,9 +75,10 @@ class DashboardScreen extends React.Component {
     setTimeout(() => {
       console.log("data newList", search)
       // this.setState({isLoading: false})
-      let newList = listData.find(el => el.ticker === search)
+      let newList = listData.find(el => el.ticker === search.toUpperCase())
+      console.log("data list", newList)
       this.setState({listData: newList})
-    }, 1000)
+    }, 3000)
   }
 
   onLogout = () => {
@@ -105,10 +107,10 @@ class DashboardScreen extends React.Component {
       >
         {screen === "list" ?
         <>
-        <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+        <View style={styles.container1}>
           <View style={{width: "10%", alignItems: "flex-start"}}>
             <TouchableOpacity>
-              <Image source={Images.back} style={{width: 30, height: 30, resizeMode: 'contain', marginLeft: -10}} />
+              <Image source={Images.back} style={styles.back} />
             </TouchableOpacity>
           </View>
           <View style={{width: "90%"}}>
@@ -116,7 +118,7 @@ class DashboardScreen extends React.Component {
               placeholder={"Search"}
               value={search}
               onChangeText={(search) => {this.setState({search: search}), this.onSearch()}}
-              containerStyle={{height: 40, fontSize: 12, width: "100%"}}
+              containerStyle={styles.inputText1}
               iconLeft={Images.search}
             />
           </View>
@@ -125,7 +127,7 @@ class DashboardScreen extends React.Component {
         {listData && listData.length > 0  && listData.map((item, index) => {
           let number = parseFloat(item.amount)
           return (
-            <View key={index} style={{flexDirection: "row", alignItems: 'center', justifyContent: 'space-between', paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: Colors.darkWhite}}>
+            <View key={index} style={styles.containerList}>
               <View style={{flexDirection: 'row', alignItems: "center"}}>
                 <Image source={{uri: item.image}} style={{width: 20, height: 20, resizeMode: 'contain'}} />
                 <Text style={{paddingLeft: 10, fontWeight: 'bold', color: Colors.white, fontSize: 16}}>{item.ticker}</Text>
@@ -141,7 +143,7 @@ class DashboardScreen extends React.Component {
         <>
         <View style={{flex: 1}}>
           <View style={{alignItems: 'center'}}>
-            <Image source={Images.ads} style={{width: "100%", height: 100, resizeMode: 'contain'}} />
+            <Image source={Images.ads} style={styles.ads} />
             <View style={{flexDirection: 'row', paddingTop: 20}}>
               <Text style={{color: Colors.darkWhite}}>24H Changes </Text>
               <Text style={{color: Colors.green}}>+ 11.34%</Text>

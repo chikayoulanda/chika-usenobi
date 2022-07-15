@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, Image} from "react-native";
+import { View, Image} from "react-native";
 import { connect } from "react-redux";
 import Layout from "../Components/Layout";
 import {Colors, Images} from '../Themes';
@@ -10,6 +10,7 @@ import { CommonActions } from '@react-navigation/native';
 
 import ListAcions from '../Redux/ListRedux';
 import AuthActions from '../Redux/AuthRedux';
+import styles from './styles/LoginScreenStyles';
 
 class LoginScreen extends React.Component {
   constructor(props) {
@@ -81,9 +82,9 @@ class LoginScreen extends React.Component {
 
     return (
       <Layout>
-        <View style={{flex: 1}}>
+        <View style={styles.container}>
           <View style={{height: 30, alignItems: 'center', justifyContent: 'center', marginBottom: 20}}>
-            <Image source={Images.logo} style={{width: 70, height: 30, resizeMode: 'contain'}} />
+            <Image source={Images.logo} style={styles.image} />
           </View>
           <InputText
             label={"E-mail Address"}
